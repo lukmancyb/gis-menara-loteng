@@ -13,22 +13,8 @@
     </button>
 
     <div class="collapse navbar-collapse order-3" id="navbarCollapse">
-      <!-- Left navbar links -->
       <ul class="navbar-nav">
-        <!-- PENCARIAN MENARA -->
-        <!-- <form class="form-inline ml-0 ml-md-3" method="get">
-          <div class="input-group input-group-sm">
-            <input class="form-control form-control-navbar" type="text" name="q"
-              value="<?php echo $this->input->get('q') ?>" class="form-control col-sm-6" id="place-input"
-              placeholder="Search" aria-label="Search">
 
-            <div class="input-group-append">
-              <button class="btn btn-navbar" type="submit">
-                <i class="fas fa-search"></i>
-              </button>
-            </div>
-          </div>
-        </form> -->
         <li class="nav-item">
           <a href="<?= base_url(); ?>" class="nav-link">Home</a>
         </li>

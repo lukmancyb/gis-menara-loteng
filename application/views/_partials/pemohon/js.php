@@ -116,4 +116,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- <script src="http://maps.google.com/maps/api/js?key=AIzaSyAUkINMHMrcNZLLysL44L8g4FR2_75H3ak&callback=initMap&amp;sensor=true"></script> -->
     <!-- JS Libraies -->
   <!-- <script src="<?php echo base_url(); ?>assets/js/page/gmaps-multiple-marker.js"></script> -->
+<script>
+    $(function () {
+        $("#example1").DataTable();
+        $('#example2').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false
+        });
+    });
+</script>
 

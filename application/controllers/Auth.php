@@ -49,7 +49,8 @@ class Auth extends MY_Controller
                 'nama' => $query->nama,
                 'alamat' => $query->alamat,
                 'telp' => $query->telp,
-                'logged_in' => true
+                'logged_in' => true,
+                'id_perusahaan' => $query->id_perusahaan
             );
 
             // set session untuk user
@@ -66,7 +67,7 @@ class Auth extends MY_Controller
             if ($this->session->userdata('level') === 'administrator') {
                 redirect('dashboard');
             } else {
-                redirect('pemohon/pemohon');
+                redirect('pemohon/dashboard');
             }
         }
 
@@ -90,7 +91,7 @@ class Auth extends MY_Controller
                 if ($this->session->userdata('level') === 'administrator') {
                     redirect('dashboard');
                 } else {
-                    redirect('pemohon/pemohon');
+                    redirect('pemohon/dashboard');
                 }
             }
         }
@@ -122,7 +123,6 @@ class Auth extends MY_Controller
                 );
 
                 $token = md5(time());
-
                 $user_token = [
                     'email' => $email,
                     'token' => $token,
@@ -158,7 +158,6 @@ class Auth extends MY_Controller
         $this->email->to($this->input->post('username'));
 
         if ($type == 'verify') {
-
             $user_email = $this->input->post('username');
 
             $message = 'Klik link untuk verifikasi akun anda : <a href="' . base_url() .
@@ -171,7 +170,6 @@ class Auth extends MY_Controller
             return true;
         } else {
 
-            echo $this->email->print_debugger(); die;
             $this->session->set_flashdata('error',
                 "Maaf terjadi kesalahan saat proses pendaftaran<b> Hubungi kontak kami  <b/>");
             redirect('auth/register');

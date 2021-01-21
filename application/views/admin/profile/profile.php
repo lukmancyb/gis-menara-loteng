@@ -72,12 +72,6 @@ $this->load->view('_partials/header');
                     <input type="password" id="konfirmasi_password" name="konfirmasi_password" class="form-control">
                   </div>
                 </div>
-                <div class="row">
-                  <div class="form-group col-12">
-                    <label>Alamat</label>
-                    <textarea class="form-control summernote-simple" id="alamat" name="alamat"><?php echo $this->session->userdata('alamat'); ?></textarea>
-                  </div>
-                </div>
               </div>
               <div class="card-footer text-right">
                 <button class="btn btn-primary" name="submit-information" value="true">Save Changes</button>

@@ -105,9 +105,9 @@ class Model_menaraseluler extends CI_Model
       $query = $this->db
         ->select('a.*, b.nama_perusahaan, c.nama_desa, d.nama_kecamatan')
         ->from('tbl_menara_seluler a')
-        ->join('ref_perusahaan b', 'b.id_perusahaan = a.id_perusahaan')
-        ->join('ref_desa c', 'c.id_desa = a.id_desa')
-        ->join('ref_kecamatan d', 'd.id_kecamatan = a.id_kecamatan')
+        ->join('ref_perusahaan b', 'b.id_perusahaan = a.id_perusahaan','left')
+        ->join('ref_desa c', 'c.id_desa = a.id_desa','left')
+        ->join('ref_kecamatan d', 'd.id_kecamatan = a.id_kecamatan','left')
         ->get();
       // $query = $this->db
       // ->select('a.*, b.nama_jabatan.*')

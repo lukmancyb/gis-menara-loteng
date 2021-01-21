@@ -44,7 +44,6 @@ class Profile extends MY_Controller {
 
       // Mengatur validasi data alamat,
       // # required = tidak boleh kosong
-      $this->form_validation->set_rules('alamat', 'Alamat', 'required');
 
       // Mengatur validasi data telepon,
       // # required = tidak boleh kosong
@@ -59,7 +58,6 @@ class Profile extends MY_Controller {
                 if($this->input->post('konfirmasi_password') == ''){
                     $data = array(
                         'nama' => $this->input->post('nama'),
-                        'alamat' => $this->input->post('alamat'),
                         'telp' => $this->input->post('telp')
                     );
                     // Ambil user ID dari session
@@ -71,7 +69,6 @@ class Profile extends MY_Controller {
                 else{
                     $data = array(
                         'nama' => $this->input->post('nama'),
-                        'alamat' => $this->input->post('alamat'),
                         'telp' => $this->input->post('telp'),
                         'avatar' => $avatar,
                         'password' => password_hash($this->input->post('konfirmasi_password'), PASSWORD_DEFAULT)

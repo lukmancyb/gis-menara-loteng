@@ -18,10 +18,14 @@ class Tower extends MY_Controller
 
     function index()
     {
+
+//        $data = $this->model_menaraseluler->getAllJoin()->result();
+//        var_dump(count($data)); die;
         $data = array(
             'title' => 'Data tower', //kita buat file formtower di dalam folder views/admin
             'itemdatatower' => $this->model_menaraseluler->getAllJoin()
         );
+
         $this->load->view('admin/seluler/formdatatower', $data);
     }
     function koordinat()

@@ -77,9 +77,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
         </ul>
       </li> -->
                 <li class="menu-header">Menu Master</li>
-                <li class="<?php echo $this->uri->uri_string() == 'perusahaan' ? 'active dropdown' : ''; ?>">
+                <li class="<?php echo $this->uri->uri_string() == 'perusahaan' || $this->uri->uri_string() == 'syarat' ? 'active dropdown' : ''; ?>">
                     <a href="#" class="nav-link has-dropdown"><i class="fas fa-database"></i> <span>Master</span></a>
                     <ul class="dropdown-menu">
+                        <li class="<?php echo $this->uri->uri_string() == 'syarat' ? 'active' : ''; ?>">
+                            <a href="<?php echo base_url(); ?>syarat">Data Syarat Permohoan</a>
+                        </li>
                         <li class="<?php echo $this->uri->uri_string() == 'perusahaan' ? 'active' : ''; ?>">
                             <a href="<?php echo base_url(); ?>perusahaan">Data Perusahaan</a>
                         </li>
