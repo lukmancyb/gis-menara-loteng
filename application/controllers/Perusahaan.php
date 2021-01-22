@@ -9,7 +9,7 @@ class Perusahaan extends MY_Controller {
         //kita load model yang dibutuhkan, yaitu model tower
         $this->load->model(array('model_perusahaan'));
         $this->load->model(array('model_kecamatan'));
-        $this->load->model(array('model_desa'));
+        $this->load->model(array('model_desa', 'model_users'));
         $this->load->helper('url');
         $this->load->library('form_validation');
         $this->cekLogin();
@@ -136,8 +136,13 @@ class Perusahaan extends MY_Controller {
         $query = $this->model_perusahaan->delete($id);
 
         // cek jika query berhasil
-        if ($query) $message = array('status' => true, 'message' => 'Berhasil menghapus user');
-        else $message = array('status' => true, 'message' => 'Gagal menghapus user');
+        if ($query) {
+
+            $message = array('status' => true, 'message' => 'Berhasil menghapus user');
+        }
+        else {
+            $message = array('status' => true, 'message' => 'Gagal menghapus user');
+        }
 
         // simpan message sebagai session
         $this->session->set_flashdata('message', $message);

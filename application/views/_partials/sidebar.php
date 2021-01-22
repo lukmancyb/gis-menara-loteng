@@ -46,23 +46,23 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <a href="<?php echo base_url(); ?>tower/koordinat"><i class="fas fa-map-marker-alt"></i> <span> Map</span></a>
       </li> -->
 
-                <li class="menu-header">Peta Sebaran Menara (GIS)</li>
-                <li class="<?php echo $this->uri->uri_string() == 'gis/menara-seluler' || $this->uri->uri_string() == 'gis/menara-bakti' || $this->uri->uri_string() == 'gis/area-blankspot' ? 'dropdown active' : ''; ?>">
-                    <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
-                                class="fas fa-map-marker-alt"></i>
-                        <span>Peta / GIS</span></a>
-                    <ul class="dropdown-menu">
-                        <li class="<?php echo $this->uri->uri_string() == 'gis/menara-seluler' ? 'active' : ''; ?>">
-                            <a href="<?php echo base_url(); ?>gis/menara-seluler">Menara Seluler</a>
-                        </li>
-                        <li class="<?php echo $this->uri->uri_string() == 'gis/menara-bakti' ? 'active' : ''; ?>">
-                            <a href="<?php echo base_url(); ?>gis/menara-bakti">Menara BAKTI</a>
-                        </li>
-                        <li class="<?php echo $this->uri->uri_string() == 'gis/area-blankspot' ? 'active' : ''; ?>">
-                            <a href="<?php echo base_url(); ?>gis/area-blankspot">Area Blankspot</a>
-                        </li>
-                    </ul>
-                </li>
+<!--                <li class="menu-header">Peta Sebaran Menara (GIS)</li>-->
+<!--                <li class="--><?php //echo $this->uri->uri_string() == 'gis/menara-seluler' || $this->uri->uri_string() == 'gis/menara-bakti' || $this->uri->uri_string() == 'gis/area-blankspot' ? 'dropdown active' : ''; ?><!--">-->
+<!--                    <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i-->
+<!--                                class="fas fa-map-marker-alt"></i>-->
+<!--                        <span>Peta / GIS</span></a>-->
+<!--                    <ul class="dropdown-menu">-->
+<!--                        <li class="--><?php //echo $this->uri->uri_string() == 'gis/menara-seluler' ? 'active' : ''; ?><!--">-->
+<!--                            <a href="--><?php //echo base_url(); ?><!--gis/menara-seluler">Menara Seluler</a>-->
+<!--                        </li>-->
+<!--                        <li class="--><?php //echo $this->uri->uri_string() == 'gis/menara-bakti' ? 'active' : ''; ?><!--">-->
+<!--                            <a href="--><?php //echo base_url(); ?><!--gis/menara-bakti">Menara BAKTI</a>-->
+<!--                        </li>-->
+<!--                        <li class="--><?php //echo $this->uri->uri_string() == 'gis/area-blankspot' ? 'active' : ''; ?><!--">-->
+<!--                            <a href="--><?php //echo base_url(); ?><!--gis/area-blankspot">Area Blankspot</a>-->
+<!--                        </li>-->
+<!--                    </ul>-->
+<!--                </li>-->
 
 
                 <li class="menu-header">Menu Izin Menara</li>

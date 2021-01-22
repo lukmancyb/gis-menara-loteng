@@ -81,27 +81,6 @@ $this->load->view('_partials/pemohon/header');
                                                class="form-control">
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="form-group col-lg-12 col-md-12">
-                                        <label>Perusahaan</label>* <label class="text-warning"> Buat baru jika perusahaan anda belum terdaftar </label>
-                                        <div class="input-group">
-                                            <select type="text" id="id_perusahaan" name="id_perusahaan" class="form-control select2" required>
-                                                <option value="">-- Pilih Perusahaan --</option>
-                                                <?php foreach ($perusahaan as $item) :?>
-                                                    <option value="<?= $item->id_perusahaan;?>"
-                                                        <?= ($item->id_perusahaan == $this->session->userdata('id_perusahaan')) ?  'Selected' : '' ;?>
-                                                    >
-                                                        <?= $item->nama_perusahaan;?>
-                                                    </option>
-                                                <?php endforeach;?>
-                                            </select>
-                                            <div class="input-group-append">
-                                                <a href="<?= base_url('pemohon/profile/register_perusahaan');?>" class="btn btn-warning" >Baru</a>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
                             </div>
                             <div class="card-footer text-right">
                                 <button type="submit" name="submit" id="submit"

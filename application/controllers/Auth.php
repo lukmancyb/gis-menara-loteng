@@ -49,8 +49,7 @@ class Auth extends MY_Controller
                 'nama' => $query->nama,
                 'alamat' => $query->alamat,
                 'telp' => $query->telp,
-                'logged_in' => true,
-                'id_perusahaan' => $query->id_perusahaan
+                'logged_in' => true
             );
 
             // set session untuk user

@@ -105,4 +105,16 @@ class Model_users extends CI_Model
         return $query;
     }
 
+    public function join_perusahaan($id_perusahaan)
+    {
+        $query = $this->db
+            ->select('a.*', 'b.nama_perusahaan')
+            ->from('users a')
+            ->join('ref_perusahaan b', 'b.id_perusahaan = a.id_perusahaan', 'left')
+            ->where('a.id_perusahaan', $id_perusahaan)
+            ->get();
+
+        return $query;
+    }
+
 }
