@@ -8,65 +8,241 @@ class Pengajuan extends MY_Controller
         parent::__construct();
         $this->cekLogin();
         $this->load->model('pemohon/model_pengajuan');
+        $this->load->model('pemohon/model_trxpengajuan');
         $this->load->model('model_perusahaan');
+        $this->load->model('model_users');
+        $this->load->library('upload');
+		$this->load->helper('download');
+
 
     }
 
     public function index()
     {
-
+        $data = $this->model_users->get_where(array('id' => $this->session->userdata('id')))->row();
+     
         $pengajuan = $this->model_pengajuan->get()->result();
-        $this->load->view('pemohon/pengajuan/index', array('pengajuan' => $pengajuan));
+        $this->load->view('pemohon/pengajuan/index', 
+        array(
+            'pengajuan' => $pengajuan, 
+            'user' => $data
+             ));
     }
 
     public function add(){
         $perusahaan = $this->model_perusahaan->get()->result();
 
-        $this->load->view('pemohon/pengajuan/v_pengajuan_add',array('perusahaan' => $perusahaan));
+        $this->load->view('pemohon/pengajuan/v_pengajuan_add',
+        array('perusahaan' => $perusahaan));
     }
 
     public function create(){
+
+        /**
+         *  ######################
+         *   Setting Nomor Surat
+         *  ##################### 
+         */
         //Mengambil Bulan ini
         $bulan = date('n');
         //Mengambil nomor terbesar dari data yang ada
         $data = $this->db->query("SELECT max(nomor_pengajuan) as maxCode FROM tbl_pengajuan_permohonan WHERE MONTH(created_at) = $bulan" )->row();
         //Kode Untuk Permohonan
         $kode = "LOTENG-GIS";
-        //Nomor baru atau nomor sebelumnya ditambah 1
+        //Nomor sebelumnya ditambah 1
         $nomor= sprintf("%03s", strval(strtok($data->maxCode, "/")+ 1));
         //nomor permohonan baru
         $nomor_permohonan = getNomorSurat($nomor, $kode);
+
+       /**
+         *  ######################
+         *   Setting File
+         *  ##################### 
+         */
+
+        $config['upload_path'] = './assets/files/pengajuan/'; //path folder
+        $config['allowed_types'] = 'pdf'; //type yang dapat diakses bisa anda sesuaikan
+        $config['encrypt_name'] = TRUE; //nama yang terupload nantinya
+        $config['max_size']     = 2048;
+
+        $this->upload->initialize($config);
+
+        // var_dump(!empty($_FILES['nama_file']['name'])); die;
+        
+        if(!empty($_FILES['nama_file']['name'])){
+            if($this->upload->do_upload('nama_file')){
+                $file = $this->upload->data();
+                $file_name = $file['file_name'];
+                $post = $this->input->post();
+
+                $data = [
+                    'email_pemohon' => $this->session->userdata('username'),
+                    'telepon_pemohon' => $this->session->userdata('telp'),
+                    'keterangan' =>strip_tags($post['keterangan']),
+                    'id_perusahaan' => $this->session->userdata('id_perusahaan'),
+                    'nomor_pengajuan' => $nomor_permohonan,
+                    'created_at' => date('Y:m:d h:i:s'),
+                    'status' => FALSE,
+                    'file_url' => $file_name
+                ];
+
+                // var_dump($file['file_type']); die;
+                $query = $this->model_pengajuan->insert($data);
+                if ($query){
+                    $this->session->set_flashdata('session_pengajuan',
+                    [
+                     'status' => true,
+                     'message' => "Pengajuan Sudah di buat, untuk melengkapi permohonan klik tombol tambah syarat."
+                    ]);
+                    redirect('pemohon/pengajuan/index');
+                }else{
+                    $this->session->set_flashdata('session_pengajuan',
+                        [
+                            'status' => false,
+                            'message' => "Terjadi kesalahan jaringan, coba lagi"
+                        ]);
+                    redirect('pemohon/pengajuan/add');
+                }
+            }else{
+                // var_dump($this->upload->display_errors());die;
+                $this->session->set_flashdata('error', $this->upload->display_errors());
+                redirect('pemohon/pengajuan/add');
+            }
+        }
+
+    }
+
+
+    public function edit()
+    {
+        $id  = $this->uri->segment(2);
+        $data = $this->model_pengajuan->get_select_where(
+            'id,nomor_pengajuan,id_perusahaan, keterangan, file_url',
+            array('id' => $id)
+        )->row();
+
+        // var_dump($data->row()); die;
+        $this->load->view('pemohon/pengajuan/v_pengajuan_edit', 
+        array('data' => $data) );
+    }
+    
+    public function update()
+    {
         $post = $this->input->post();
-        $data = [
-            'email_pemohon' => $this->session->userdata('username'),
-            'telepon_pemohon' => $this->session->userdata('telp'),
-            'keterangan' => $post['keterangan'],
-            'id_perusahaan' => $post['id_perusahaan'],
-            'nomor_pengajuan' => $nomor_permohonan,
-            'created_at' => date('Y:m:d h:i:s'),
-            'status' => false
-        ];
-        $query = $this->model_pengajuan->insert($data);
-        if ($query){
+        $config['upload_path'] = './assets/files/pengajuan/'; //path folder
+        $config['allowed_types'] = 'pdf'; //type yang dapat diakses bisa anda sesuaikan
+        $config['encrypt_name'] = TRUE; //nama yang terupload nantinya
+        $config['max_size']     = 2048;
+
+        $this->upload->initialize($config);
+        if(!empty($_FILES['nama_file']['name'])){
+            if($this->upload->do_upload('nama_file')){
+                $file = $this->upload->data();
+                $file_name = $file['file_name'];
+                $data = [
+                    'keterangan' =>strip_tags($post['keterangan']),
+                    'file_url' => $file_name
+                ];
+                $query = $this->model_pengajuan->update($post['id'], $data);
+                if ($query){  
+
+                    $path = './assets/files/pengajuan/'.$post['file_url'];
+                    unlink($path);
+                    $trx_data = [
+                        'id_pengajuan' =>$post['id'],
+                        'komentar' => 'DI update',
+                        'created_at' => date('Y:m:d h:i:s'),
+                        'updated_by' => $this->session->userdata('username')
+                    ];
+                    $this->model_trxpengajuan->insert($trx_data);
+                    $this->session->set_flashdata('session_pengajuan',
+                    [
+                     'status' => true,
+                     'message' => "Pengajuan Sudah di rubah"
+                    ]);
+                    redirect('pemohon/pengajuan/index');
+                }else{
+                    // var_dump("salah");die;
+                    $this->session->set_flashdata('session_pengajuan',
+                        [
+                            'status' => false,
+                            'message' => "Terjadi kesalahan jaringan, coba lagi"
+                        ]);
+                    redirect('pemohon/pengajuan/edit');
+                }
+            }else{
+                // var_dump($this->upload->display_errors());die;
+                $data = $this->model_pengajuan->get_select_where(
+                    'id,nomor_pengajuan,id_perusahaan, keterangan, file_url',
+                    array('id' => $post['id'])
+                )->row();
+                // var_dump($data); die;
+                $this->session->set_flashdata('error', $this->upload->display_errors());
+                $this->load->view('pemohon/pengajuan/v_pengajuan_edit', array('data' => $data));
+            }
+        }else{
+            $data = [
+                'keterangan' =>strip_tags($post['keterangan'])
+            ];
+            $query = $this->model_pengajuan->update($post['id'], $data);
+            if ($query){
+                $trx_data = [
+                    'id_pengajuan' =>$post['id'],
+                    'komentar' => 'DI update',
+                    'created_at' => date('Y:m:d h:i:s'),
+                    'updated_by' => $this->session->userdata('username')
+                ];
+                $this->model_trxpengajuan->insert($trx_data);
+                $this->session->set_flashdata('session_pengajuan',
+                [
+                 'status' => true,
+                 'message' => "Pengajuan Sudah di rubah"
+                ]);
+                redirect('pemohon/pengajuan/index');
+            }else{
+                $this->session->set_flashdata('session_pengajuan',
+                    [
+                        'status' => false,
+                        'message' => "Terjadi kesalahan jaringan, coba lagi"
+                    ]);
+                redirect('pemohon/pengajuan/edit');
+            }
+        }
+     
+    }
+
+    public function delete()
+    {
+        // var_dump($this->input->post('id')); die;
+        $post = $this->input->post();
+        $delete = $this->model_pengajuan->delete($post['id']);
+        if($delete){
+            $this->model_trxpengajuan->delete($post['id']);
+            $this->delete_file($post['file_url']);
             $this->session->set_flashdata('session_pengajuan',
             [
              'status' => true,
-             'message' => "Pengajuan Sudah di buat, untuk melengkapi permohonan klik tombol tambah syarat."
+             'message' => "Pengajuan Sudah di hapus"
             ]);
             redirect('pemohon/pengajuan/index');
         }else{
             $this->session->set_flashdata('session_pengajuan',
-                [
-                    'status' => false,
-                    'message' => "Terjadi kesalahan jaringan, coba lagi"
-                ]);
-            redirect('pemohon/pengajuan/add');
+            [
+                'status' => false,
+                'message' => "Terjadi kesalahan jaringan, coba lagi"
+            ]);
+        redirect('pemohon/pengajuan/edit');
         }
 
-//        var_dump($query); die;
 
-//        var_dump($data); die;
+    }
 
+    public function delete_file($file_name)
+    {
+        $path = './assets/files/pengajuan/'.$file_name;
+        unlink($path);
+
+        return true;
     }
 
 }

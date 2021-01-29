@@ -2,16 +2,16 @@
 
 class Dashboard extends MY_Controller
 {
-    public function __construct()
-    {
-        parent::__construct();
+public function __construct()
+{
+    parent::__construct();
 
-        // Cek apakah user sudah login
-        $this->isAdmin();
-        $this->cekLogin();
-        $this->load->model(array('model_menaraseluler'));
+    // Cek apakah user sudah login
+    $this->isAdmin();
+    $this->cekLogin();
+    $this->load->model(array('model_menaraseluler'));
 
-    }
+}
 
     public function index()
     {
@@ -51,4 +51,5 @@ class Dashboard extends MY_Controller
             }
         }
     }
+    
 }

@@ -49,6 +49,7 @@ class Auth extends MY_Controller
                 'nama' => $query->nama,
                 'alamat' => $query->alamat,
                 'telp' => $query->telp,
+                'id_perusahaan' => $query->id_perusahaan,
                 'logged_in' => true
             );
 
@@ -159,11 +160,18 @@ class Auth extends MY_Controller
         if ($type == 'verify') {
             $user_email = $this->input->post('username');
 
-            $message = 'Klik link untuk verifikasi akun anda : <a href="' . base_url() .
-                'auth/verify?email=' . $user_email . '&token=' . $token . '"> Activate </a> <br> <b>Lakukan verifikasi dalam 24 jam</b>';
+            $message = array(
+                'user_email' => $user_email,
+                'user_token' => $token
+            );
 
+            // $message = 'Klik link untuk verifikasi akun anda : <a href="' . base_url() .
+            //     'auth/verify?email=' . $user_email . '&token=' . $token . '"> Activate </a> <br> <b>Lakukan verifikasi dalam 24 jam</b>';
+
+            $body = $this->load->view('email_verification', $message, TRUE);
+            
             $this->email->subject('Verifikasi Akun');
-            $this->email->message($message);
+            $this->email->message($body);
         }
         if ($this->email->send()) {
             return true;
@@ -274,4 +282,7 @@ class Auth extends MY_Controller
             return TRUE;
         }
     }
+
+
+    
 }

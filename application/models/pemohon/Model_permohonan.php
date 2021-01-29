@@ -1,7 +1,7 @@
 <?php
-  class Model_pengajuan extends CI_Model {
+  class Model_permohonan extends CI_Model {
 
-    public $table = 'tbl_pengajuan_permohonan';
+    public $table = 'tbl_permohonan';
 
 
 
@@ -75,6 +75,19 @@
       
       // Return hasil query
       return $query;
+    }
+
+    public function get_by_pengajuan($id_pengajuan)
+    {
+        $query = $this->db
+        ->select('a.*,b.*')
+        ->from(''.$this->table.' b')
+        ->join('tbl_syarat a', 'a.id=b.id_syarat')
+        ->where('b.id_pengajuan', $id_pengajuan)
+        ->get();
+
+        return $query;
+
     }
     
   }

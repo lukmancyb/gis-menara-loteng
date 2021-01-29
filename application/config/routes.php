@@ -51,6 +51,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $route['default_controller'] = 'frontend';
 $route['peta'] = 'frontend';
+/**
+ * Pengajuan
+ */
+$route['pengajuan'] = 'pemohon/pengajuan';
+$route['pengajuan-edit/(:num)'] = 'pemohon/pengajuan/edit/$i';
+
+$route['detail-permohonan/(:num)'] = 'pemohon/detailpermohonan/show/$1';
 $route['izin-menara'] = 'IzinMenara';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = TRUE;

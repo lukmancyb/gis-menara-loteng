@@ -96,7 +96,7 @@ $this->load->view('_partials/header');
                         </div>
                     </div>
                     <div class="simple-footer">
-                        Copyright &copy; Stisla 2018
+                    Copyright &copy; 2019 Diskominfo Kab. Lombok Tengah
                     </div>
 
                 </div>

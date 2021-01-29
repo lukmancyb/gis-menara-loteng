@@ -1,7 +1,7 @@
 <?php
-  class Model_pengajuan extends CI_Model {
+  class Model_trxpengajuan extends CI_Model {
 
-    public $table = 'tbl_pengajuan_permohonan';
+    public $table = 'trx_pengajuan';
 
 
 
@@ -59,7 +59,7 @@
     {
       // Jalankan query
       $query = $this->db
-        ->where('id', $id)
+        ->where('id_pengajuan', $id)
         ->update($this->table, $data);
       
       // Return hasil query
@@ -70,7 +70,7 @@
     {
       // Jalankan query
       $query = $this->db
-        ->where('id', $id)
+        ->where('id_pengajuan', $id)
         ->delete($this->table);
       
       // Return hasil query
