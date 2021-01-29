@@ -18,8 +18,8 @@ class DetailPermohonan extends MY_Controller
   public function show()
   {
       $id = $this->uri->segment(2);
-      $data = $this->model_permohonan->get_by_pengajuan($id);
-      var_dump($data->result()); die;
-      $this->load->view('pemohon/detailpengajuan/v_detail_pengajuan');
+      $data = $this->model_pengajuan->get_where(array('id' => $id))->row();
+      // var_dump($data->result()); die;
+      $this->load->view('pemohon/detailpengajuan/v_detail_pengajuan', array('pengajuan' => $data));
   }
 }

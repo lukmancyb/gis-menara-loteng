@@ -33,17 +33,18 @@ $this->load->view('_partials/pemohon/header');
                 <div class="col-md-12 col-sm-12">
                     <div class="card">
                         <div class="card-header">
-                           
+                           <label for="" class=""> 
+                           Nomor Pengajuan : <h4 class="text-info"><?= $pengajuan->nomor_pengajuan;?></h4>
+                           </label>
                         </div>
                         <div class="card-body">
                             <table class="table" id="example1">
                                 <thead>
                                     <th>#</th>
                                     <th>No</th>
-                                    <th>Nomor Permohonan</th>
-                                    <th>Keterangan</th>
-                                    <th>File</th>
+                                    <th>Syarat</th>
                                     <th>Tanggal Dibuat</th>
+                                    <th>File Upload</th>
                                     <th>Status</th>
                                 </thead>
                                 <tbody>
