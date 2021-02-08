@@ -1,18 +1,23 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
+use  Carbon\Carbon as Carbon;
 
 class Pengajuan extends MY_Controller
 {
+
 
     public function __construct()
     {
         parent::__construct();
         $this->cekLogin();
+        $this->isPemohon();
+
         $this->load->model('pemohon/model_pengajuan');
         $this->load->model('pemohon/model_trxpengajuan');
         $this->load->model('model_perusahaan');
         $this->load->model('model_users');
         $this->load->library('upload');
-		$this->load->helper('download');
+        $this->load->helper('download');
+        // $this->load->library('carbon_lib');
 
 
     }
@@ -21,7 +26,9 @@ class Pengajuan extends MY_Controller
     {
         $data = $this->model_users->get_where(array('id' => $this->session->userdata('id')))->row();
      
-        $pengajuan = $this->model_pengajuan->get()->result();
+        $pengajuan = $this->model_pengajuan->get_where(array('email_pemohon' => $this->session->userdata('username')))->result();
+        
+        // var_dump($pengajuan); die;
         $this->load->view('pemohon/pengajuan/index', 
         array(
             'pengajuan' => $pengajuan, 
@@ -36,8 +43,8 @@ class Pengajuan extends MY_Controller
         array('perusahaan' => $perusahaan));
     }
 
-    public function create(){
-
+    public function create()
+    {
         /**
          *  ######################
          *   Setting Nomor Surat
@@ -141,18 +148,20 @@ class Pengajuan extends MY_Controller
                 $file_name = $file['file_name'];
                 $data = [
                     'keterangan' =>strip_tags($post['keterangan']),
-                    'file_url' => $file_name
+                    'file_url' => $file_name,
+                    'status' => 3 //mengubah status menjadi revisi
                 ];
                 $query = $this->model_pengajuan->update($post['id'], $data);
                 if ($query){  
-
                     $path = './assets/files/pengajuan/'.$post['file_url'];
                     unlink($path);
                     $trx_data = [
                         'id_pengajuan' =>$post['id'],
-                        'komentar' => 'DI update',
-                        'created_at' => date('Y:m:d h:i:s'),
-                        'updated_by' => $this->session->userdata('username')
+                        'komentar' => 'Melakukan revisi',
+                        'created_at' => Carbon::now(),
+                        'created_by' => $this->session->userdata('username'),
+                        'status' => 3  //mengubah status menjadi revisi
+
                     ];
                     $this->model_trxpengajuan->insert($trx_data);
                     $this->session->set_flashdata('session_pengajuan',
@@ -188,15 +197,16 @@ class Pengajuan extends MY_Controller
             if ($query){
                 $trx_data = [
                     'id_pengajuan' =>$post['id'],
-                    'komentar' => 'DI update',
-                    'created_at' => date('Y:m:d h:i:s'),
-                    'updated_by' => $this->session->userdata('username')
+                    'komentar' => 'Melakukan Revisi',
+                    'created_at' => Carbon::now(),
+                    'created_by' => $this->session->userdata('username'),
+                    'status' => 3
                 ];
                 $this->model_trxpengajuan->insert($trx_data);
                 $this->session->set_flashdata('session_pengajuan',
                 [
                  'status' => true,
-                 'message' => "Pengajuan Sudah di rubah"
+                 'message' => "Anda melakukan revisi"
                 ]);
                 redirect('pemohon/pengajuan/index');
             }else{
@@ -241,8 +251,36 @@ class Pengajuan extends MY_Controller
     {
         $path = './assets/files/pengajuan/'.$file_name;
         unlink($path);
-
         return true;
     }
+
+
+    // Ajax Request
+
+    public function showKomentarById($id)
+    {
+
+        $query = $this->model_trxpengajuan->get_where_order_date(array('id_pengajuan' => $id));
+
+        foreach($query->result_array() as $item){
+            $data[] = array(
+                'id_pengajuan' => $item['id_pengajuan'],
+                'created_at' => Carbon::parse($item['created_at'])->diffForHumans(),
+                'komentar' => $item['komentar'],
+                'created_by' => $item['created_by'],
+                'status' => $item['status']
+            );
+        }
+    // var_dump($data); die;
+    $this->output
+    ->set_content_type('application/json')
+    ->set_output(json_encode(array('data' => $data)));
+      
+    }
+
+  
+
+
+   
 
 }

@@ -7,6 +7,7 @@ class Dashboard extends MY_Controller
     {
         parent::__construct();
         $this->cekLogin();
+        $this->isPemohon();
 
     }
 

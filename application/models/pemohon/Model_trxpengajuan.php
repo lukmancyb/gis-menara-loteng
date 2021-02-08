@@ -76,5 +76,17 @@
       // Return hasil query
       return $query;
     }
+
+    public function get_where_order_date($where)
+    {
+      // Jalankan query
+      $query = $this->db
+        ->where($where)
+        ->order_by('created_at', 'DESC')
+        ->get($this->table);
+
+      // Return hasil query
+      return $query;
+    }
     
   }

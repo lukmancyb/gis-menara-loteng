@@ -117,4 +117,14 @@ class Model_users extends CI_Model
         return $query;
     }
 
+    public function update_where($where, $data)     
+    {
+        $query = $this->db
+        ->where($where)
+        ->update($this->table, $data);
+
+    // Return hasil query
+    return $query;
+    }
+
 }

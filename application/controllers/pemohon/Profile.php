@@ -7,6 +7,7 @@ class Profile extends MY_Controller
     {
         parent::__construct();
         $this->cekLogin();
+        $this->isPemohon();
         $this->load->model('pemohon/model_pemohon');
         $this->load->model('model_users');
         $this->load->model('model_perusahaan');
@@ -24,7 +25,7 @@ class Profile extends MY_Controller
                 $post = $this->input->post();
                 $data = [
                     'nama_perusahaan' => $post['nama_perusahaan'],
-                    'alamat_perusahaan' => $post['nama_perusahaan'],
+                    'alamat_perusahaan' => $post['alamat_perusahaan'],
                     'hp_perusahaan' => $post['hp_perusahaan'],
                     'created_by' => $this->session->userdata('username'),
                     'created_at' => date('Y:m:d h:i:s')

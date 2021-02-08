@@ -57,4 +57,6 @@ class Model_syarat extends CI_Model
         return $query;
     }
 
+
+
 }

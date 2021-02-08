@@ -6,6 +6,7 @@ class DetailPermohonan extends MY_Controller
   {
       parent::__construct();
       $this->cekLogin();
+      $this->isPemohon();
       $this->load->model('pemohon/model_pengajuan');
       $this->load->model('pemohon/model_permohonan');
       $this->load->model('pemohon/model_trxpengajuan');
@@ -18,8 +19,17 @@ class DetailPermohonan extends MY_Controller
   public function show()
   {
       $id = $this->uri->segment(2);
-      $data = $this->model_pengajuan->get_where(array('id' => $id))->row();
-      // var_dump($data->result()); die;
-      $this->load->view('pemohon/detailpengajuan/v_detail_pengajuan', array('pengajuan' => $data));
+      $data_pengajuan = $this->model_pengajuan->join_perusahaan_where($id)->row();
+      $data_permohonan = $this->model_permohonan->join_syarat($id)->result();
+      // var_dump($data_permohonan); die;
+
+      if($data_pengajuan){
+        $d['data'] = $data_pengajuan;
+        $d['title'] = "Validasi permohonan";
+        $d['data_permohonan'] = $data_permohonan;
+        $this->load->view('pemohon/detailpengajuan/v_detail_pengajuan', $d);
+      }else{
+        show_404();
+      }
   }
 }

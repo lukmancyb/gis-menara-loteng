@@ -1,9 +1,7 @@
 <?php
   class Model_pengajuan extends CI_Model {
 
-    public $table = 'tbl_pengajuan_permohonan';
-
-
+    protected $table = 'tbl_pengajuan_permohonan';
 
     public function get_select($select)
     {
@@ -76,5 +74,25 @@
       // Return hasil query
       return $query;
     }
+
+    public function join_perusahaan_where($id)
+    {
+        $query = $this->db
+        ->select('a.id, a.nomor_pengajuan, a.keterangan, a.created_at, a.file_url, a.status, a.telepon_pemohon, a.email_pemohon, a.keterangan, b.nama_perusahaan, b.alamat_perusahaan')
+        ->from('tbl_pengajuan_permohonan a')
+        ->join('ref_perusahaan b', 'a.id_perusahaan = b.id_perusahaan')
+        ->where('a.id', $id)
+        ->get();
+
+        return $query;
+        
+    }
+
+
+
+  
+    
+
+
     
   }
