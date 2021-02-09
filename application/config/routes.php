@@ -26,6 +26,10 @@ $route['pengajuan'] = 'pemohon/pengajuan';
 $route['pengajuan-alasan/show/(:num)'] = 'pemohon/pengajuan/showKomentarById/$1';
 $route['pengajuan-edit/(:num)'] = 'pemohon/pengajuan/edit/$i';
 
+$route['pengajuan-upload/show/(:num)'] = 'pemohon/detailpermohonan/showSyarat/$1';
+$route['pengajuan-upload/update'] = 'pemohon/detailpermohonan/updateSyarat';
+
+
 $route['detail-permohonan/(:num)'] = 'pemohon/detailpermohonan/show/$1';
 
 $route['izin-menara'] = 'IzinMenara';

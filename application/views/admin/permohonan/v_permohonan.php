@@ -100,6 +100,7 @@ $this->load->view('_partials/header');
 </div>
 <?php $this->load->view('_partials/footer'); ?>
 <?php $this->load->view('_partials/js'); ?>
-<?php $this->load->view('admin/permohonan/js/js_pengajuan');?>
 <?php $this->load->view('admin/permohonan/modal/modal_show_komentar');?>
+<?php $this->load->view('admin/permohonan/js/js_pengajuan');?>
+
 <?php //$this->load->view('_partials/pemohon/initmap'); ?>

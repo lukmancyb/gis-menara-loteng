@@ -34,20 +34,20 @@ $this->load->view('_partials/pemohon/header');
                                         <input type="text" name="keterangan" id="" class="form-control" required
                                             placeholder="Contoh : Permohonan izin menara telekomunikasi di desa ...">
                                     </div>
-                                    <div class="form-group col-lg-12 col-md-12">
-                                        <label>Surat Kuasa Dari Perusahaan</label><br>
-                                        <label for="keterangan" class="text-grey"><i>File yang dimasukan harus
-                                            pdf, ukuran maksimal 5 mb </i></label>
-                                           
-                                        <input type="file" name="nama_file" class="form-control" required>
-                                        <?php if($this->session->flashdata('error')) :?>
-                                        <label for="keterangan" class="text-danger">
-                                        <?= $this->session->flashdata('error');?>
-                                        </label>
-                                        <?php endif;?>   
-                                        
+                                        <div class="form-group col-lg-12 col-md-12">
+                                            <label>Surat Kuasa Dari Perusahaan</label><br>
+                                            <label for="keterangan" class="text-grey"><i>File yang dimasukan harus
+                                                pdf, ukuran maksimal 5 mb </i></label>
+                                            
+                                            <input type="file" name="nama_file" class="form-control" required>
+                                            <?php if($this->session->flashdata('error')) :?>
+                                            <label for="keterangan" class="text-danger">
+                                            <?= $this->session->flashdata('error');?>
+                                            </label>
+                                            <?php endif;?>   
+                                            
 
-                                    </div>
+                                        </div>
                                 </div>
                                 <div class="card-footer text-right">
                                     <button class="btn btn-lg btn-primary">Ajukan</button>

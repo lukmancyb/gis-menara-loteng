@@ -79,9 +79,20 @@
 
     }
 
+    function showFile(path){
+        console.log(`<?= base_url();?>assets/files/permohonan/${path}`);
+        if(path != null || path != ""){
+            $('#modalShowFile').modal('show');
+            $('#file_url').attr('src', `<?= base_url();?>assets/files/permohonan/${path}`)
+        }
+    }
+
     function closeModal() {
         $('#modal_show_komentar').modal('hide');
         // location.reload();
 
     }
+    
+
+    
 </script>

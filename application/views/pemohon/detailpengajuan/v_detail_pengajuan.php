@@ -16,14 +16,14 @@ $this->load->view('_partials/pemohon/header');
 
             <div class="row">
                 <div class="col-md-8">
-                    <?php if ($message = $this->session->flashdata('session_pengajuan')): ?>
+                    <?php if ($message = $this->session->flashdata('session_permohonan')): ?>
                     <div
                         class="alert <?= ($message['status']) ? 'alert-success' : 'alert-danger'; ?> alert-dismissible show fade">
                         <div class="alert-body">
                             <button class="close" data-dismiss="alert">
                                 <span>×</span>
                             </button>
-                            <?php echo $message['message']; ?>
+                            <i><?php echo  $message['message']; ?></i>
                         </div>
                     </div>
                     <?php endif; ?>
@@ -95,11 +95,39 @@ $this->load->view('_partials/pemohon/header');
                                                 <tr>
                                                     <td><?= ++$key;?></td>
                                                     <td><?= $value->nama;?></td>
-                                                    <td><?= $value->source ? $value->source : ' - ';?></td>
-                                                    <td><?= $value->status ? $value->status : ' - ';?></td>
                                                     <td>
-
+                                                        <?php if($value->source) :?>
+                                                            <a href="#" onclick='showFile("<?=$value->source;?>")' >Lihat</a>
+                                                        <?php else :?>
+                                                            -
+                                                        <?php endif;?>
                                                     </td>
+                                                    <td>
+                                                        <?php if($value->status == 1) :?>
+                                                        <span class="badge badge-info">Diajukan</span>
+                                                        <?php elseif($value->status == 2) :?>
+                                                        <span class="badge badge-success">Diterima</span>
+                                                        <?php elseif($value->status == 3) :?>
+                                                        <span class="badge badge-danger">Ditolak</span>
+                                                        <?php else :?>
+                                                        -
+                                                        <?php endif ;?>
+                                                    </td>
+                                                    <td>
+                                                        <?php if($value->status == 2) :?>
+                                                        Sudah Diterima
+                                                        <?php elseif($value->status == 1) :?>
+                                                        Menunggu validasi
+                                                        <?php elseif($value->status == 3) :?>
+                                                        <a href="#" class="badge badge-warning" data-toggle="modal"
+                                                            onclick="uploadSyarat(<?= $value->id;?>)">Upload Ulang</a>
+                                                        <?php else :?>
+                                                        <a href="#" class="badge badge-secondary" data-toggle="modal"
+                                                            onclick="uploadSyarat(<?= $value->id;?>)">Upload File</a>
+                                                        <?php endif ;?>
+                                                    </td>
+
+
                                                 </tr>
                                                 <?php endforeach;?>
                                             </tbody>
@@ -108,7 +136,6 @@ $this->load->view('_partials/pemohon/header');
                                 </div>
                             </div>
                             <hr>
-                 
                             <?php endif;?>
                         </div>
                     </div>
@@ -119,9 +146,12 @@ $this->load->view('_partials/pemohon/header');
                 </div>
             </div>
         </div>
-
         <section>
 </div>
 <?php $this->load->view('_partials/pemohon/footer'); ?>
 <?php $this->load->view('_partials/pemohon/js'); ?>
+<?php $this->load->view('pemohon/detailpengajuan/js/js_pemohon_detailpengajuan');?>
+<?php $this->load->view('pemohon/detailpengajuan/modal/modal_upload_file_syarat');?>
+<?php $this->load->view('pemohon/detailpengajuan/modal/modal_show_file');?>
+
 <?php //$this->load->view('_partials/pemohon/initmap'); ?>

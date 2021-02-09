@@ -113,8 +113,24 @@ $this->load->view('_partials/header');
                                                 <tr>
                                                     <td><?= ++$key;?></td>
                                                     <td><?= $value->nama;?></td>
-                                                    <td><?= $value->source ? $value->source : ' - ';?></td>
-                                                    <td><?= $value->status ? $value->status : ' - ';?></td>
+                                                    <td>
+                                                        <?php if($value->source) :?>
+                                                        <a href="#" onclick='showFile("<?=$value->source;?>")'>Lihat</a>
+                                                        <?php else :?>
+                                                        -
+                                                        <?php endif;?>
+                                                    </td>
+                                                    <td>
+                                                    <?php if($value->status == 1) :?>
+                                                        <span class="badge badge-info">Diajukan</span>
+                                                        <?php elseif($value->status == 2) :?>
+                                                        <span class="badge badge-success">Diterima</span>
+                                                        <?php elseif($value->status == 3) :?>
+                                                        <span class="badge badge-danger">Ditolak</span>
+                                                        <?php else :?>
+                                                        -
+                                                        <?php endif ;?>
+                                                    </td>
                                                     <td>
 
                                                     </td>
@@ -178,5 +194,8 @@ $this->load->view('_partials/header');
 </div>
 </div>
 <?php $this->load->view('_partials/js'); ?>
+<?php $this->load->view('admin/permohonan/js/js_pengajuan');?>
+<?php $this->load->view('admin/permohonan/modal/modal_show_file');?>
+
 
 <!--end script google map-->

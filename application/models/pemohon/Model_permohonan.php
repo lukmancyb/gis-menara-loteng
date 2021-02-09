@@ -66,6 +66,17 @@
       return $query;
     }
 
+    public function update_where($where, $data)
+    {
+      // Jalankan query
+      $query = $this->db
+        ->where($where)
+        ->update($this->table, $data);
+      
+      // Return hasil query
+      return $query;
+    }
+
     public function delete($id)
     {
       // Jalankan query
@@ -98,9 +109,30 @@
         ->join('tbl_syarat b', 'a.id_syarat = b.id')
         ->where('a.id_pengajuan', $id)
         ->get();
-
         return $query;
         
+    }
+
+    public function join_syarat_where($where)
+    {
+        $query = $this->db
+        ->select('a.*, b.nama, b.slug')
+        ->from('tbl_permohonan a')
+        ->join('tbl_syarat b', 'a.id_syarat = b.id')
+        ->where($where)
+        ->get();
+        return $query;
+    }
+
+    public function join_syarat_by_id($id)
+    {
+        $query = $this->db
+        ->select('a.*, b.nama, b.slug')
+        ->from('tbl_permohonan a')
+        ->join('tbl_syarat b', 'a.id_syarat = b.id')
+        ->where('a.id', $id)
+        ->get();
+        return $query;
     }
     
   }

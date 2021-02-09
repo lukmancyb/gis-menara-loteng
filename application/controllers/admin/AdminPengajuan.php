@@ -59,7 +59,6 @@ class AdminPengajuan extends MY_Controller
             'id_pengajuan' => $id,
             'status' => 1,
             'komentar' => "Permohonan diterima",
-            'created_at' => Carbon::now(),
             'created_by' => $this->session->userdata('username')
           );
           $this->model_trxpengajuan->insert($datatrx);
